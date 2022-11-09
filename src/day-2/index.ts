@@ -37,9 +37,7 @@ class Day2Problem extends BaseProblem<Command> {
          { horizontal: 0, depth: 0 }
       );
       console.log(`Step 1 Final Position: ${JSON.stringify(finalPosition)}`);
-      console.log(
-         `Step 1 Answer: ${finalPosition.horizontal * finalPosition.depth}`
-      );
+      console.log(`Step 1 Answer: ${finalPosition.horizontal * finalPosition.depth}`);
    }
 
    async step2(commands: Command[]) {
@@ -67,9 +65,7 @@ class Day2Problem extends BaseProblem<Command> {
          { horizontal: 0, depth: 0, aim: 0 }
       );
       console.log(`Step 2 Final Position: ${JSON.stringify(finalPosition)}`);
-      console.log(
-         `Step 2 Answer: ${finalPosition.horizontal * finalPosition.depth}`
-      );
+      console.log(`Step 2 Answer: ${finalPosition.horizontal * finalPosition.depth}`);
    }
 }
 
@@ -81,10 +77,6 @@ const inputTransform = (line: string): Command => {
    };
 };
 const filename = 'input.txt';
-const problem = new Day2Problem(
-   getDirname(import.meta.url),
-   filename,
-   inputTransform
-);
+const problem = new Day2Problem(getDirname(import.meta.url), filename, inputTransform);
 
 problem.run();

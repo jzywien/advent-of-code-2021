@@ -32,10 +32,6 @@ class Day1Problem extends BaseProblem<number> {
 
 const inputTransform = (line: string): number => Number(line);
 const filename = 'input.txt';
-const problem = new Day1Problem(
-   getDirname(import.meta.url),
-   filename,
-   inputTransform
-);
+const problem = new Day1Problem(getDirname(import.meta.url), filename, inputTransform);
 
 problem.run();
