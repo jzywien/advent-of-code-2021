@@ -7,21 +7,16 @@ export enum Steps {
 }
 
 export abstract class BaseProblem<T> {
-   private _file: string;
-   private _transform: (line: string) => T;
+   private _fileName: string;
 
-   constructor(
-      directory: string,
-      fileName: string,
-      transform: (line: string) => T = (line: string) => line as T
-   ) {
-      this._file = `${directory}/${fileName}`;
-      this._transform = transform;
+   constructor(fileName: string) {
+      this._fileName = fileName;
    }
 
    private async _init(): Promise<Array<T>> {
-      const lines = await readAllLines(this._file);
-      const transformed = lines.map(this._transform);
+      const file = `${this.directory}/${this._fileName}`;
+      const lines = await readAllLines(file);
+      const transformed = lines.map(this.transform);
       return transformed;
    }
 
@@ -41,6 +36,8 @@ export abstract class BaseProblem<T> {
       }
    }
 
+   abstract get directory(): string;
+   abstract transform(line: string): T;
    abstract step1(lines: Array<T>): void;
    abstract step2(lines: Array<T>): void;
 }

@@ -2,8 +2,16 @@ import { BaseProblem } from '../base-problem';
 import { getDirname } from '../util/file';
 import { sum } from '../util/math';
 
-class Day1Problem extends BaseProblem<number> {
+export class Day1Problem extends BaseProblem<number> {
+   get directory() {
+      return getDirname(import.meta.url);
+   }
+
+   transform = (line: string): number => Number(line);
+
    async step1(lines: number[]): Promise<void> {
+      console.log('Day 1 Step 1:');
+
       let prev: number | null = null;
       let numIncreases = 0;
       for (const line of lines) {
@@ -12,10 +20,11 @@ class Day1Problem extends BaseProblem<number> {
          }
          prev = line;
       }
-      console.log(`Step 1: ${numIncreases}`);
+      console.log(`  Num Increases: ${numIncreases}`);
    }
 
    async step2(lines: number[]): Promise<void> {
+      console.log('Day 1 Step 2:');
       let prev: number | null = null;
       let numIncreases = 0;
       for (let i = 0; i < lines.length; ++i) {
@@ -26,12 +35,6 @@ class Day1Problem extends BaseProblem<number> {
          }
          prev = total;
       }
-      console.log(`Step 2: ${numIncreases}`);
+      console.log(`  Num Increases: ${numIncreases}`);
    }
 }
-
-const inputTransform = (line: string): number => Number(line);
-const filename = 'input.txt';
-const problem = new Day1Problem(getDirname(import.meta.url), filename, inputTransform);
-
-problem.run();

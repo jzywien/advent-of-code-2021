@@ -3,7 +3,48 @@ import { getDirname } from '../util/file';
 import { transpose } from '../util/array';
 import { bitArrayToInt, flipBit } from '../util/binary';
 
-class Day3Problem extends BaseProblem<number[]> {
+export class Day3Problem extends BaseProblem<number[]> {
+   get directory() {
+      return getDirname(import.meta.url);
+   }
+
+   transform = (line: string): number[] => line.split('').map((bit) => Number(bit));
+
+   async step1(bitArrays: number[][]) {
+      console.log('Day 3 Step 1:');
+
+      const transposed = transpose(bitArrays);
+      const gammaRateBitArray = transposed.reduce((accum, curr) => {
+         const bit = this.mostCommonBit(curr);
+         return [...accum, bit];
+      }, []);
+      const epsilonRateBitArray = gammaRateBitArray.map(flipBit);
+      const gammaRate = bitArrayToInt(gammaRateBitArray);
+      const epsilonRate = bitArrayToInt(epsilonRateBitArray);
+      const powerConsumption = gammaRate * epsilonRate;
+
+      console.log(
+         `  {gammaRate: ${gammaRate}, epsilonRate: ${epsilonRate}, powerConsumption: ${powerConsumption}}`
+      );
+   }
+
+   async step2(bitArrays: number[][]) {
+      console.log('Day 3 Step 2:');
+
+      const oxygenGeneratorRating = this.findRatingValue(
+         this.mostCommonBitAtPosition.bind(this),
+         bitArrays
+      );
+      const CO2ScrubberRating = this.findRatingValue(
+         this.leastCommonBitAtPosition.bind(this),
+         bitArrays
+      );
+      const lifeSupportRating = oxygenGeneratorRating * CO2ScrubberRating;
+      console.log(
+         `  {oxygenGeneratorRating: ${oxygenGeneratorRating}, CO2ScrubberRating: ${CO2ScrubberRating}, lifeSupportRating: ${lifeSupportRating}}`
+      );
+   }
+
    private mostCommonBit(bitArray: number[]): number {
       const sizeHalf = bitArray.length / 2;
       const isMostCommon0 = bitArray.filter((bit) => bit === 0).length > sizeHalf;
@@ -17,7 +58,7 @@ class Day3Problem extends BaseProblem<number[]> {
 
    private leastCommonBitAtPosition(bitArrays: number[][], bitPosition: number): number {
       const mostCommon = this.mostCommonBitAtPosition(bitArrays, bitPosition);
-      return !mostCommon ? 1 : 0;
+      return flipBit(mostCommon);
    }
 
    private findRatingValue(
@@ -37,40 +78,4 @@ class Day3Problem extends BaseProblem<number[]> {
       );
       return this.findRatingValue(strategy, filteredBitArrays, ++index);
    }
-
-   async step1(bitArrays: number[][]) {
-      const transposed = transpose(bitArrays);
-      const gammaRateBitArray = transposed.reduce((accum, curr) => {
-         const bit = this.mostCommonBit(curr);
-         return [...accum, bit];
-      }, []);
-      const epsilonRateBitArray = gammaRateBitArray.map(flipBit);
-      const gammaRate = bitArrayToInt(gammaRateBitArray);
-      const epsilonRate = bitArrayToInt(epsilonRateBitArray);
-      const powerConsumption = gammaRate * epsilonRate;
-
-      console.log('Day 3 step 1: ', gammaRate, epsilonRate, powerConsumption);
-   }
-
-   async step2(bitArrays: number[][]) {
-      console.log('Day 3 step 2');
-      const oxygenGeneratorRating = this.findRatingValue(
-         this.mostCommonBitAtPosition.bind(this),
-         bitArrays
-      );
-      const CO2ScrubberRating = this.findRatingValue(
-         this.leastCommonBitAtPosition.bind(this),
-         bitArrays
-      );
-      const lifeSupportRating = oxygenGeneratorRating * CO2ScrubberRating;
-      console.log(lifeSupportRating);
-   }
 }
-
-const inputTransform = (line: string): number[] => {
-   return line.split('').map((bit) => Number(bit));
-};
-const filename = 'input.txt';
-const problem = new Day3Problem(getDirname(import.meta.url), filename, inputTransform);
-
-problem.run(Steps.Step2);
