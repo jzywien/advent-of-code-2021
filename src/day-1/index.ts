@@ -1,5 +1,5 @@
 import { getDirname, readAllLines } from "../util/file";
-const __dirname = getDirname(import.meta.url);
+import { sum } from "../util/math";
 
 const step1 = (lines: number[]) => {
   let prev: number | null = null;
@@ -13,7 +13,6 @@ const step1 = (lines: number[]) => {
   console.log(`Step 1: ${numIncreases}`);
 };
 
-const sum = (nums: number[]) => nums.reduce((total, curr) => total + curr, 0);
 const step2 = (lines: number[]) => {
   let prev: number | null = null;
   let numIncreases = 0;
@@ -28,12 +27,14 @@ const step2 = (lines: number[]) => {
   console.log(`Step 2: ${numIncreases}`);
 };
 
+const inputTransform = (line: string): number => Number(line);
+
 const main = async () => {
-  const lines = (await readAllLines(`${__dirname}/input.txt`)).map((line) =>
-    Number(line)
-  );
-  step1(lines);
-  step2(lines);
+  const filename = `${getDirname(import.meta.url)}/input.txt`;
+  const lines = await readAllLines(filename);
+  const transformed = lines.map(inputTransform);
+  step1(transformed);
+  step2(transformed);
 };
 
 main();

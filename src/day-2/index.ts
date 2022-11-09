@@ -1,5 +1,4 @@
 import { getDirname, readAllLines } from "../util/file";
-const __dirname = getDirname(import.meta.url);
 
 enum Direction {
   Forward = "forward",
@@ -71,19 +70,20 @@ const step2 = (commands: Command[]) => {
   );
 };
 
-const main = async () => {
-  const lines: Command[] = (await readAllLines(`${__dirname}/input.txt`)).map(
-    (line) => {
-      const [direction, units] = line.split(" ");
-      return {
-        direction: direction as Direction,
-        units: Number(units),
-      };
-    }
-  );
+const inputTransform = (line: string): Command => {
+  const [direction, units] = line.split(" ");
+  return {
+    direction: direction as Direction,
+    units: Number(units),
+  };
+};
 
-  step1(lines);
-  step2(lines);
+const main = async () => {
+  const filename = `${getDirname(import.meta.url)}/input.txt`;
+  const lines = await readAllLines(filename);
+  const transformed = lines.map(inputTransform);
+  step1(transformed);
+  step2(transformed);
 };
 
 main();
