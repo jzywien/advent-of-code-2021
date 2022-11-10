@@ -4,6 +4,7 @@ import { Matrix } from '../util/matrix';
 export type GameBoard = Matrix<number>;
 
 const dimension = 5;
+const MARKED = -1;
 export class BingoGame {
    private _draw: number[];
    private _boards: GameBoard[] = [];
@@ -51,7 +52,7 @@ export class BingoGame {
       for (let i = 0; i < dimension; ++i) {
          for (let j = 0; j < dimension; ++j) {
             if (board[i][j] === draw) {
-               board[i][j] = -1;
+               board[i][j] = MARKED;
                // returning early assumes
                // that there are no duplicates
                return;
@@ -80,7 +81,9 @@ export class BingoGame {
          for (let board of boards) {
             const row = board[i];
             for (let col of row) {
-               process.stdout.write((col === -1 ? 'x' : String(col)).padStart(3, ' '));
+               process.stdout.write(
+                  (col === MARKED ? 'x' : String(col)).padStart(3, ' ')
+               );
             }
             process.stdout.write('  ');
          }
@@ -93,7 +96,7 @@ export class BingoGame {
       let sum = 0;
       for (let i = 0; i < dimension; ++i) {
          for (let j = 0; j < dimension; ++j) {
-            sum += board[i][j] === -1 ? 0 : board[i][j];
+            sum += board[i][j] === MARKED ? 0 : board[i][j];
          }
       }
       return sum * lastDraw;
@@ -101,8 +104,8 @@ export class BingoGame {
 
    private _isWinner(board: GameBoard) {
       for (let i = 0; i < dimension; ++i) {
-         const rowWinner = !this._getRow(board, i).some((val) => val !== -1);
-         const colWinner = !this._getCol(board, i).some((val) => val !== -1);
+         const rowWinner = !this._getRow(board, i).some((val) => val !== MARKED);
+         const colWinner = !this._getCol(board, i).some((val) => val !== MARKED);
          if (rowWinner || colWinner) return true;
       }
       return false;
