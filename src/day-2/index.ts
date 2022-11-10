@@ -12,17 +12,19 @@ interface Command {
    units: number;
 }
 
-export class Day2Problem extends BaseProblem<Command> {
+export class Day2Problem extends BaseProblem<Command[]> {
    get directory() {
       return getDirname(import.meta.url);
    }
 
-   transform(line: string): Command {
-      const [direction, units] = line.split(' ');
-      return {
-         direction: direction as Direction,
-         units: Number(units),
-      };
+   transform(lines: string[]): Command[] {
+      return lines.map((line) => {
+         const [direction, units] = line.split(' ');
+         return {
+            direction: direction as Direction,
+            units: Number(units),
+         };
+      });
    }
 
    async step1(commands: Command[]) {

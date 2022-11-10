@@ -1,16 +1,20 @@
 import { BaseProblem, Steps } from '../base-problem';
 import { getDirname } from '../util/file';
-import { transpose } from '../util/array';
+import { transpose } from '../util/matrix';
 import { bitArrayToInt, flipBit } from '../util/binary';
 
-export class Day3Problem extends BaseProblem<number[]> {
+type BitArray = number[];
+
+export class Day3Problem extends BaseProblem<BitArray[]> {
    get directory() {
       return getDirname(import.meta.url);
    }
 
-   transform = (line: string): number[] => line.split('').map((bit) => Number(bit));
+   transform = (lines: string[]): BitArray[] => {
+      return lines.map((line) => line.split('').map((bit) => Number(bit)));
+   };
 
-   async step1(bitArrays: number[][]) {
+   async step1(bitArrays: BitArray[]) {
       console.log('Day 3 Step 1:');
 
       const transposed = transpose(bitArrays);
@@ -28,7 +32,7 @@ export class Day3Problem extends BaseProblem<number[]> {
       );
    }
 
-   async step2(bitArrays: number[][]) {
+   async step2(bitArrays: BitArray[]) {
       console.log('Day 3 Step 2:');
 
       const oxygenGeneratorRating = this.findRatingValue(
@@ -45,25 +49,25 @@ export class Day3Problem extends BaseProblem<number[]> {
       );
    }
 
-   private mostCommonBit(bitArray: number[]): number {
+   private mostCommonBit(bitArray: BitArray): number {
       const sizeHalf = bitArray.length / 2;
       const isMostCommon0 = bitArray.filter((bit) => bit === 0).length > sizeHalf;
       return isMostCommon0 ? 0 : 1;
    }
 
-   private mostCommonBitAtPosition(bitArrays: number[][], bitPosition: number): number {
+   private mostCommonBitAtPosition(bitArrays: BitArray[], bitPosition: number): number {
       const bitsAtPosition = bitArrays.map((bitArray) => bitArray[bitPosition]);
       return this.mostCommonBit(bitsAtPosition);
    }
 
-   private leastCommonBitAtPosition(bitArrays: number[][], bitPosition: number): number {
+   private leastCommonBitAtPosition(bitArrays: BitArray[], bitPosition: number): number {
       const mostCommon = this.mostCommonBitAtPosition(bitArrays, bitPosition);
       return flipBit(mostCommon);
    }
 
    private findRatingValue(
-      strategy: (bitArrays: number[][], index: number) => number,
-      bitArrays: number[][],
+      strategy: (bitArrays: BitArray[], index: number) => number,
+      bitArrays: BitArray[],
       index = 0
    ): number {
       if (index > bitArrays[0].length) {

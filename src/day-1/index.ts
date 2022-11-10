@@ -2,12 +2,12 @@ import { BaseProblem } from '../base-problem';
 import { getDirname } from '../util/file';
 import { sum } from '../util/math';
 
-export class Day1Problem extends BaseProblem<number> {
+export class Day1Problem extends BaseProblem<number[]> {
    get directory() {
       return getDirname(import.meta.url);
    }
 
-   transform = (line: string): number => Number(line);
+   transform = (lines: string[]): number[] => lines.map((line) => Number(line));
 
    async step1(lines: number[]): Promise<void> {
       console.log('Day 1 Step 1:');

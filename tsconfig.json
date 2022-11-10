@@ -1,13 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "es2022",
-    "module": "es2020",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "sourceMap": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "noEmitOnError": true
-  },
-  "exclude": ["node_modules"]
+   "compilerOptions": {
+      "target": "es2022",
+      "module": "es2020",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "sourceMap": true,
+      "strict": true,
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "noEmitOnError": true
+   },
+   "exclude": ["node_modules"]
 }

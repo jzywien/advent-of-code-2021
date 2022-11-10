@@ -13,31 +13,30 @@ export abstract class BaseProblem<T> {
       this._fileName = fileName;
    }
 
-   private async _init(): Promise<Array<T>> {
+   private async _init(): Promise<T> {
       const file = `${this.directory}/${this._fileName}`;
       const lines = await readAllLines(file);
-      const transformed = lines.map(this.transform);
-      return transformed;
+      return this.transform(lines);
    }
 
    public async run(steps: Steps = Steps.All) {
-      const lines = await this._init();
+      const input = await this._init();
       switch (steps) {
          case Steps.Step1:
-            await this.step1(lines);
+            await this.step1(input);
             break;
          case Steps.Step2:
-            await this.step2(lines);
+            await this.step2(input);
             break;
          case Steps.All:
-            await this.step1(lines);
-            await this.step2(lines);
+            await this.step1(input);
+            await this.step2(input);
             break;
       }
    }
 
    abstract get directory(): string;
-   abstract transform(line: string): T;
-   abstract step1(lines: Array<T>): void;
-   abstract step2(lines: Array<T>): void;
+   abstract transform(lines: string[]): T;
+   abstract step1(input: T): void;
+   abstract step2(input: T): void;
 }
