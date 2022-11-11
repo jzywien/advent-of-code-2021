@@ -85,3 +85,6 @@ export class Day2Problem extends BaseProblem<Command[]> {
       console.log(`  Answer: ${finalPosition.horizontal * finalPosition.depth}`);
    }
 }
+
+const problem = new Day2Problem('sample.txt');
+problem.run();

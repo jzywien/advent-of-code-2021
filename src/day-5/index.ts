@@ -1,4 +1,4 @@
-import { BaseProblem, Steps } from '../base-problem';
+import { BaseProblem } from '../base-problem';
 import { getDirname } from '../util/file';
 import { Line, Point } from '../util/geometry';
 
@@ -63,3 +63,6 @@ export class Day5Problem extends BaseProblem<Line[]> {
       console.log(`  ${overlappingPoints}`);
    }
 }
+
+const problem = new Day5Problem('sample.txt');
+problem.run();

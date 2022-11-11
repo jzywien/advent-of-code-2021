@@ -38,3 +38,6 @@ export class Day1Problem extends BaseProblem<number[]> {
       console.log(`  Num Increases: ${numIncreases}`);
    }
 }
+
+const problem = new Day1Problem('sample.txt');
+problem.run();

@@ -1,4 +1,4 @@
-import { BaseProblem, Steps } from '../base-problem';
+import { BaseProblem } from '../base-problem';
 import { getDirname } from '../util/file';
 import { transpose } from '../util/matrix';
 import { bitArrayToInt, flipBit } from '../util/binary';
@@ -83,3 +83,6 @@ export class Day3Problem extends BaseProblem<BitArray[]> {
       return this.findRatingValue(strategy, filteredBitArrays, ++index);
    }
 }
+
+const problem = new Day3Problem('sample.txt');
+problem.run();

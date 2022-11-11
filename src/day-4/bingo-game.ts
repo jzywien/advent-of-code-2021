@@ -1,4 +1,3 @@
-import test, { describe } from 'node:test';
 import { Matrix } from '../util/matrix';
 
 export type GameBoard = Matrix<number>;

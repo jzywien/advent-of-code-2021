@@ -1,6 +1,6 @@
 import { BaseProblem } from '../base-problem';
 import { getDirname } from '../util/file';
-import { BingoGame, GameBoard } from './bingo-game';
+import { BingoGame } from './bingo-game';
 
 export class Day4Problem extends BaseProblem<BingoGame> {
    get directory(): string {
@@ -47,3 +47,6 @@ export class Day4Problem extends BaseProblem<BingoGame> {
       console.log(`  Last Winning Score: ${lastWinnerScore}`);
    }
 }
+
+const problem = new Day4Problem('sample.txt');
+problem.run();
